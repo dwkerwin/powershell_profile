@@ -1,14 +1,18 @@
 #
-####################################################################################
+################################################################################
 # Doug's Powershell Enhancements
-# Run at startup from profile
+# Auto-run at startup from profile
 #
 
+# configure the console UI
 $Shell = $Host.UI.RawUI
 $Shell.WindowSize.width = 160
 $Shell.WindowSize.height = 50
 $Shell.BufferSize.width = 160
 $Shell.BufferSize.height = 5000
+#$Shell.BackgroundColor = "DarkBlue"
+#$Shell.ForegroundColor = "White"
+Clear-Host
 
 # If an AWS profile is set, set the Posh and CLI creds for this session
 # Expects the following fields to be set in the secrets.ps1 file
@@ -26,11 +30,11 @@ $profileFolder = split-path $profile
 
 # save last 100 history items on exit
 $historyPath = Join-Path $profileFolder history.clixml
- 
+
 # hook powershell's exiting event & hide the registration with -supportevent.
 Register-EngineEvent -SourceIdentifier powershell.exiting -SupportEvent -Action {
     Get-History -Count 100 | Export-Clixml (Join-Path (split-path $profile) history.clixml) }
- 
+
 # load previous history, if it exists
 if ((Test-Path $historyPath)) {
     Import-Clixml $historyPath | ? {$count++;$true} | Add-History
@@ -64,7 +68,7 @@ function which($app)
 function Test-InPath($fileName){
     $found = $false
     Find-InPath $fileName | %{$found = $true}
-    
+
     return $found
 }
 
@@ -91,24 +95,24 @@ set-alias sudo Elevate-Process
 # find the solution file and start Visual Studio
 function Start-VisualStudio{
     param([string]$projFile = "")
-    
+
     if($projFile -eq ""){
         ls *.sln | select -first 1 | %{
             $projFile = $_
         }
     }
-    
+
     if(($projFile -eq "") -and (Test-Path src)){
         ls src\*.sln | select -first 1 | %{
             $projFile = $_
         }
     }
-    
+
     if($projFile -eq ""){
         echo "No project file found"
         return
     }
-    
+
     echo "Starting visual studio with $projFile"
     . $projFile
 }

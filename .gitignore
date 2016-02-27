@@ -1,0 +1,9 @@
+# exclude secrets file, contains creds
+secrets.ps1
+
+# exclude command history file
+history.clixml
+
+# exclude powertab config
+PowerTabConfig.xml
+TabExpansion.xml
