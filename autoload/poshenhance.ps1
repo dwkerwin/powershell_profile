@@ -1,6 +1,6 @@
 #
 ################################################################################
-# Doug's Powershell Enhancements
+# Doug's Powershell Customizations and Enhancements
 # Auto-run at startup from profile
 #
 
@@ -123,9 +123,3 @@ function Set-Hosts{
     sudo notepad "$($env:SystemRoot)\system32\drivers\etc\hosts"
 }
 set-alias hosts Set-Hosts
-
-# kill all processes matching this name
-function Kill-All{
-    param([string]$name)
-    get-process | ?{$_.ProcessName -eq $name -or $_.Id -eq $name} | %{kill $_.Id}
-}

@@ -13,7 +13,10 @@ if (Test-Path $secretsScript ) {
 
 # auto load all powershell scripts in the autoload directory
 $autoloadDir = Join-Path (Split-Path $PROFILE) "\autoload"
-Get-ChildItem "${autoloadDir}\*.ps1" | %{.$_}
+# run any script that doesn't start with _ (to temporarily stop a script from
+# auto loading without moving it out of the directory, just add an _ to the
+# beginning of the filename)
+Get-ChildItem "${autoloadDir}\*.ps1" | % { if (!($_.Name.StartsWith("_"))) {.$_} }
 
 # start off in the home directory
 cd ~
