@@ -11,9 +11,10 @@ if (Test-Path $secretsScript ) {
     & $secretsScript
 }
 
-# auto load all powershell scripts in the autoload directory
+# auto load all powershell modules and scripts in the autoload directory
 $autoloadDir = Join-Path (Split-Path $PROFILE) "\autoload"
-Get-ChildItem "${autoloadDir}\*.ps1" | %{.$_}
+Get-ChildItem -r "${autoloadDir}\*.psm1" | % { Import-Module $_ }
+Get-ChildItem -r "${autoloadDir}\*.ps1" | % { .$_ }
 
 # start off in the home directory
 cd ~
