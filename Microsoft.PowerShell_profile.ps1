@@ -24,5 +24,10 @@ Get-ChildItem -r "${autoloadDir}\*.psm1" | % { if (!($_.Name.StartsWith("_"))) {
 # auto load scripts
 Get-ChildItem -r "${autoloadDir}\*.ps1" | % { if (!($_.Name.StartsWith("_"))) {.$_} }
 
+# give a fancy greeting
+if (Get-Module -Name "Write-Ascii") {
+    Write-Ascii "powershell"
+}
+    
 # start off in the home directory
 cd ~
