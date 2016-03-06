@@ -1,6 +1,6 @@
 #
 ################################################################################
-# Doug's Powershell Enhancements
+# Powershell Customizations and Enhancements
 # Auto-run at startup from profile
 #
 
@@ -42,7 +42,6 @@ if ((Test-Path $historyPath)) {
 }
 
 # command aliases
-set-alias subl (Join-Path $Env:HomeDrive "\Program Files\Sublime Text 3\sublime_text.exe")
 set-alias s (Join-Path $Env:HomeDrive "\Program Files\Sublime Text 3\sublime_text.exe")
 set-alias vscode (Join-Path $Env:HomeDrive "\Program Files (x86)\Microsoft VS Code\Code.exe")
 # easier navigation
@@ -123,9 +122,3 @@ function Set-Hosts{
     sudo notepad "$($env:SystemRoot)\system32\drivers\etc\hosts"
 }
 set-alias hosts Set-Hosts
-
-# kill all processes matching this name
-function Kill-All{
-    param([string]$name)
-    get-process | ?{$_.ProcessName -eq $name -or $_.Id -eq $name} | %{kill $_.Id}
-}

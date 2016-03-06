@@ -13,8 +13,16 @@ if (Test-Path $secretsScript ) {
 
 # auto load all powershell modules and scripts in the autoload directory
 $autoloadDir = Join-Path (Split-Path $PROFILE) "\autoload"
-Get-ChildItem -r "${autoloadDir}\*.psm1" | % { Import-Module $_ }
-Get-ChildItem -r "${autoloadDir}\*.ps1" | % { .$_ }
+
+# note that any module or script that starts with _ will be ignored
+# (to temporarily stop a script from auto loading without moving it out of the directory,
+# just add an _ to the beginning of the filename)
+
+# auto load modules
+Get-ChildItem -r "${autoloadDir}\*.psm1" | % { if (!($_.Name.StartsWith("_"))) { Import-Module $_ } }
+
+# auto load scripts
+Get-ChildItem "${autoloadDir}\*.ps1" | % { if (!($_.Name.StartsWith("_"))) {.$_} }
 
 # start off in the home directory
 cd ~
