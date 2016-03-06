@@ -22,7 +22,7 @@ $autoloadDir = Join-Path (Split-Path $PROFILE) "\autoload"
 Get-ChildItem -r "${autoloadDir}\*.psm1" | % { if (!($_.Name.StartsWith("_"))) { Import-Module $_ } }
 
 # auto load scripts
-Get-ChildItem "${autoloadDir}\*.ps1" | % { if (!($_.Name.StartsWith("_"))) {.$_} }
+Get-ChildItem -r "${autoloadDir}\*.ps1" | % { if (!($_.Name.StartsWith("_"))) {.$_} }
 
 # start off in the home directory
 cd ~
