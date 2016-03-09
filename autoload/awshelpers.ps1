@@ -30,7 +30,7 @@ function rdpec2($instanceId, $pw) {
                 $pw = $Global:ec2pw    
             }
         } elseif ($pw.ToUpper() -eq "AUTO") {
-            if ($Global:ec2pw -eq $null) {
+            if ($Global:ec2pem -eq $null) {
                 echo "No pem file location set (unable to decrypt password).  Set Global:ec2pem when using 'AUTO'"
                 return
             } else {
