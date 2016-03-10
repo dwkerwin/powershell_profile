@@ -1,6 +1,12 @@
 # exclude secrets file, contains creds
 secrets.ps1
 
+# exclude the autoload script where i set my $env:path's, etc.
+locals.ps1
+
+# exclude any autoload scripts which I have set to ignore (leading underscore)
+_*
+
 # exclude command history file
 history.clixml
 
