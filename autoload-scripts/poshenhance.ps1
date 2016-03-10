@@ -12,7 +12,7 @@ $Shell.BufferSize.width = 160
 $Shell.BufferSize.height = 5000
 #$Shell.BackgroundColor = "DarkBlue"
 #$Shell.ForegroundColor = "White"
-Clear-Host
+#Clear-Host
 
 # If an AWS profile is set, set the Posh and CLI creds for this session
 # Expects the following fields to be set in the secrets.ps1 file

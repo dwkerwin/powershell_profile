@@ -16,7 +16,7 @@ the PEM file used to decrypt the password.
 rdpec2 i-ab123456
 rdpec2 i-ab123456 -pw auto
 #>
-function rdpec2($instanceId, $pw) {
+function RDP-EC2Instance($instanceId, $pw) {
     # Of course this has a dependency on the AWSPowerShell module
     if (!(Get-Module -Name "AWSPowerShell")) {
         echo "AWSPowerShell module not loaded!"
@@ -52,14 +52,15 @@ function rdpec2($instanceId, $pw) {
         mstsc /v:$privateIp
     }
 }
+set-alias rdpe RDP-EC2Instance
 
-# returns running instances only for any matching the name (case sensitive)
+# returns instances only for any matching the name (case sensitive)
 function Get-EC2InstancesByName ($name)
 {
     $instanceList = aws ec2 describe-instances --filters "Name=tag:Name,Values=*$name*" | ConvertFrom-Json
 
-    $runningInstances = $instanceList.Reservations.Instances | where { $_.State.Name -eq "running" } | `
-        select InstanceId, InstanceType, VpcId, Tags
+    $runningInstances = $instanceList.Reservations.Instances | ` #where { $_.State.Name -eq "running" } | `
+        select InstanceId, InstanceType, VpcId, State, Tags
 
     if ($runningInstances.Count -eq 0) {
         echo "No matching instances.  Remember tag name compare is case sensitive."
@@ -67,4 +68,4 @@ function Get-EC2InstancesByName ($name)
         $runningInstances | ft -auto
     }
 }
-set-alias listec2 Get-EC2InstancesByName
+set-alias liste Get-EC2InstancesByName

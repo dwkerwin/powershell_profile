@@ -14,11 +14,12 @@ function prompt {
    $cloc = [ConsoleColor]::Cyan    
    $hostName = [net.dns]::GetHostName()
    $machineName = $hostName
+   write-host "PS " -n
    write-host ($machineName) -n -f $chost 
    write-host ' ' -n -f $cdelim 
    write-host (shorten-path (pwd).Path) -n -f $cloc 
    $global:GitStatus = Get-GitStatus
    Write-GitStatus $GitStatus
-   write-host "`r`n$" -n -f $cdelim 
-   return ' ' 
+   write-host " " -n
+   return "> "
 }
