@@ -9,3 +9,7 @@ When you start spending a lot of time in the command line, which you will do whe
 The structure is in a reusable format so that it could be portable between work and home computers, etc.  So any passwords, AWS creds, etc. are kept in a secrets.ps1 file which is not checked in.  When setting variables in secrets.ps1, to overcome script scope, use `$Global:` syntax, so to set `$myvar = ""`, instead use `$Global:myvar = ""`
 
 Most of the enhancements are in the poshenhance.ps1 file in the autoload directory.  The base powershell profile will run all the scripts in the autoload directory which do not start with an underscore.  Therefore poshenhance.ps1 will get run automatically.  Also, any custom settings that might be specific to work or home computers can be put in separate scripts in the autoload directory so that they run automatically like the profile itself, but aren't mixed in with the actual profile, keeping it portable.
+
+# Powershell Version Compatibility
+
+This has only been tested in Powershell 5.
