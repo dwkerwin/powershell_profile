@@ -20,7 +20,7 @@ $autoloadModulesDir = Join-Path (Split-Path $PROFILE) "\autoload-modules"
 # auto load modules
 Get-ChildItem -r "${autoloadModulesDir}\*.psm1" | % { if (!($_.Name.StartsWith("_"))) { Import-Module $_ } }
 # auto load scripts
-Get-ChildItem -r "${autoloadScriptsDir}\*.ps1" | % { if (!($_.Name.StartsWith("_"))) {.$_} }
+Get-ChildItem -r "${autoloadScriptsDir}\*.ps1" | % { if (!($_.Name.StartsWith("_"))) {. $_} }
 
 # give a fancy greeting
 if (Get-Module -Name "Write-Ascii") {
