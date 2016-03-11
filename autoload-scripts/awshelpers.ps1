@@ -14,9 +14,10 @@ If using "AUTO", $Global:ec2pem needs to be set to contain the full file path to
 the PEM file used to decrypt the password.
 .EXAMPLE
 rdpec2 i-ab123456
-rdpec2 i-ab123456 -pw auto
+rdpec2 i-ab123456 -pw auto -pr
+rdpec2 -instanceId i-ab123456 -pw auto -privateIp
 #>
-function RDP-EC2Instance($instanceId, $pw) {
+function RDP-EC2Instance($instanceId, $pw, [switch]$privateIp) {
     # Of course this has a dependency on the AWSPowerShell module
     if (!(Get-Module -Name "AWSPowerShell")) {
         echo "AWSPowerShell module not loaded!"
@@ -40,16 +41,20 @@ function RDP-EC2Instance($instanceId, $pw) {
         # copy the password to the clipboard so it can be easily pasted into the RDP window
         $pw | clip
 
-        $privateIp = (aws ec2 describe-instances --instance-ids $instanceId | ConvertFrom-Json).Reservations[0].Instances[0].PrivateIpAddress
+        if ($privateIp.IsPresent) {
+            $ipaddr = (aws ec2 describe-instances --instance-ids $instanceId | ConvertFrom-Json).Reservations[0].Instances[0].PrivateIpAddress
+        } else {
+            $ipaddr = (aws ec2 describe-instances --instance-ids $instanceId | ConvertFrom-Json).Reservations[0].Instances[0].PublicIpAddress
+        }
 
         # wait until we can connect (if the instance was just started it may not be ready yet)
         do {
-            $conTest = Test-NetConnection -ComputerName $privateIp -CommonTCPPort RDP
+            $conTest = Test-NetConnection -ComputerName $ipaddr -CommonTCPPort RDP
         } until ($conTest.TcpTestSucceeded -eq $true)
 
         # initiate the RDP connection
         # handy tip - use the down arrow key to enter a new username such as Administrator
-        mstsc /v:$privateIp
+        mstsc /v:$ipaddr
     }
 }
 set-alias rdpe RDP-EC2Instance
