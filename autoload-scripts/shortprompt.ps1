@@ -17,9 +17,14 @@ function prompt {
    write-host "PS " -n
    write-host ($machineName) -n -f $chost 
    write-host ' ' -n -f $cdelim 
-   write-host (shorten-path (pwd).Path) -n -f $cloc 
-   $global:GitStatus = Get-GitStatus
-   Write-GitStatus $GitStatus
+   write-host (shorten-path (pwd).Path) -n -f $cloc
+   # if posh-git is installed, incorporate git status into the prompt 
+   if (Get-Module -Name "posh-git") {
+      $global:GitStatus = Get-GitStatus
+      if ($GitStatus.Branch -ne "(unknown)") {
+         Write-GitStatus $GitStatus
+      }
+   }
    write-host " " -n
    return "> "
 }
