@@ -13,9 +13,9 @@ automatically generated password from the EC2 API given the private key.
 If using "AUTO", $Global:ec2pem needs to be set to contain the full file path to
 the PEM file used to decrypt the password.
 .EXAMPLE
-rdpec2 i-ab123456
-rdpec2 i-ab123456 -pw auto -pr
-rdpec2 -instanceId i-ab123456 -pw auto -privateIp
+rdpe i-ab123456
+rdpe i-ab123456 -pw auto -pr
+rdpe -instanceId i-ab123456 -pw auto -privateIp
 #>
 function RDP-EC2Instance($instanceId, $pw, [switch]$privateIp) {
     # Of course this has a dependency on the AWSPowerShell module
