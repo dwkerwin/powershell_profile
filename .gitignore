@@ -4,8 +4,10 @@ secrets.ps1
 # exclude the autoload script where i set my $env:path's, etc.
 locals.ps1
 
-# exclude any autoload scripts which I have set to ignore (leading underscore)
-_*
+# exclude any autoload scripts or modules set to be ignored (leading underscore)
+_*.ps1
+_*.psm1
+_*.psd1
 
 # exclude command history file
 history.clixml
