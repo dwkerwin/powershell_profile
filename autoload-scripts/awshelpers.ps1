@@ -67,8 +67,7 @@ function List-EC2InstancesByName ($name)
     $runningInstances = $instanceList.Reservations.Instances | `
         # where { $_.State.Name -eq "running" } | `
         select InstanceId, InstanceType, VpcId, State, LaunchTime, Tags | `
-        sort VpcId | `
-        sort LaunchTime -desc
+        sort VpcId, LaunchTime -desc
 
     if ($runningInstances.Count -eq 0) {
         echo "No matching instances.  Remember tag name compare is case sensitive :("
