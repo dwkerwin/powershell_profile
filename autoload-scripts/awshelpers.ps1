@@ -26,7 +26,7 @@ function RDP-EC2Instance($instanceId, $pw, [switch]$privateIp) {
         if ($pw -eq $null) {
             # if no password parameter is sent, try tou se the Global
             if ($Global:ec2pw -eq $null) {
-                echo "Note: Global:ec2pw not set. For pw assistance, set this or specify 'AUTO' for pw parameter to retrieve the EC2 automatically generated password."
+                echo "Note: Global:ec2pw not set. For pw assistance, set this or specify 'AUTO' for pw argument to retrieve the EC2 automatically generated password."
             } else {
                 $pw = $Global:ec2pw    
             }
@@ -38,8 +38,10 @@ function RDP-EC2Instance($instanceId, $pw, [switch]$privateIp) {
                 $pw = Get-EC2PasswordData -InstanceId $instanceId -PemFile $ec2pem
             }
         }
-        # copy the password to the clipboard so it can be easily pasted into the RDP window
-        $pw | clip
+        if ($pw) {
+            # copy the password to the clipboard so it can be easily pasted into the RDP window
+            $pw | clip
+        }
 
         if ($privateIp.IsPresent) {
             $ipaddr = (aws ec2 describe-instances --instance-ids $instanceId | ConvertFrom-Json).Reservations[0].Instances[0].PrivateIpAddress
