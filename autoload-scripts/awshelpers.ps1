@@ -23,6 +23,18 @@ function RDP-EC2Instance($instanceId, $pw, [switch]$privateIp) {
         echo "AWSPowerShell module not loaded!"
         return
     } else {
+        if ($privateIp.IsPresent) {
+            $ipaddr = (aws ec2 describe-instances --instance-ids $instanceId | ConvertFrom-Json).Reservations[0].Instances[0].PrivateIpAddress
+        } else {
+            $ipaddr = (aws ec2 describe-instances --instance-ids $instanceId | ConvertFrom-Json).Reservations[0].Instances[0].PublicIpAddress
+        }
+        
+        # wait until we can connect (if the instance was just started it may not be ready yet)
+        # wait for connection before attempting to decrypt windows password
+        do {
+            $conTest = Test-NetConnection -ComputerName $ipaddr -CommonTCPPort RDP
+        } until ($conTest.TcpTestSucceeded -eq $true)
+
         if ($pw -eq $null) {
             # if no password parameter is sent, try tou se the Global
             if ($Global:ec2pw -eq $null) {
@@ -42,17 +54,6 @@ function RDP-EC2Instance($instanceId, $pw, [switch]$privateIp) {
             # copy the password to the clipboard so it can be easily pasted into the RDP window
             $pw | clip
         }
-
-        if ($privateIp.IsPresent) {
-            $ipaddr = (aws ec2 describe-instances --instance-ids $instanceId | ConvertFrom-Json).Reservations[0].Instances[0].PrivateIpAddress
-        } else {
-            $ipaddr = (aws ec2 describe-instances --instance-ids $instanceId | ConvertFrom-Json).Reservations[0].Instances[0].PublicIpAddress
-        }
-
-        # wait until we can connect (if the instance was just started it may not be ready yet)
-        do {
-            $conTest = Test-NetConnection -ComputerName $ipaddr -CommonTCPPort RDP
-        } until ($conTest.TcpTestSucceeded -eq $true)
 
         # initiate the RDP connection
         # handy tip - use the down arrow key to enter a new username such as Administrator
