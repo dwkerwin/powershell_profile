@@ -12,10 +12,13 @@ also be set to "AUTO", in which case this will attempt to retrieve the AWS
 automatically generated password from the EC2 API given the private key.
 If using "AUTO", $Global:ec2pem needs to be set to contain the full file path to
 the PEM file used to decrypt the password.
+.PARAMETER privateIp
+Optional. If set, indicates it should try to connect to the instance using the
+private IP address.  If omitted, will use the public IP.
 .EXAMPLE
-rdpe i-ab123456
-rdpe i-ab123456 -pw auto -pr
-rdpe -instanceId i-ab123456 -pw auto -privateIp
+rdpe i-ab123456                                 # connect via public IP
+rdpe i-ab123456 -pw auto -pr                    # connect via private IP, copies the decrypted Amazon generated password to the clipboard
+rdpe -instanceId i-ab123456 -pw auto -privateIp # just the more verbose version of the above
 #>
 function RDP-EC2Instance($instanceId, $pw, [switch]$privateIp) {
     # Of course this has a dependency on the AWSPowerShell module
@@ -36,7 +39,7 @@ function RDP-EC2Instance($instanceId, $pw, [switch]$privateIp) {
         } until ($conTest.TcpTestSucceeded -eq $true)
 
         if ($pw -eq $null) {
-            # if no password parameter is sent, try tou se the Global
+            # if no password parameter is sent, try to use the Global
             if ($Global:ec2pw -eq $null) {
                 echo "Note: Global:ec2pw not set. For pw assistance, set this or specify 'AUTO' for pw argument to retrieve the EC2 automatically generated password."
             } else {
