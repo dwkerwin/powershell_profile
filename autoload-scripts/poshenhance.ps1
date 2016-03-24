@@ -6,8 +6,8 @@
 
 # configure the console UI
 $Shell = $Host.UI.RawUI
-$Shell.WindowSize.width = 160
-$Shell.WindowSize.height = 50
+$Shell.WindowSize.width = 100
+$Shell.WindowSize.height = 30
 $Shell.BufferSize.width = 160
 $Shell.BufferSize.height = 5000
 #$Shell.BackgroundColor = "DarkBlue"
