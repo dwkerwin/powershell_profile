@@ -1,9 +1,9 @@
-################################################################################
-# Powershell Profile
+# My Powershell Profile
 #
 
-# if a secrets file exists, include that first
-$secretsScript = Join-Path (Split-Path $PROFILE) "\secrets.ps1"
+# if a secrets file exists, include that first. these are just things I want
+# to make sure don't wind up in Git
+$secretsScript = Join-Path (Split-Path $PROFILE) "\semisecrets.ps1"
 if (Test-Path $secretsScript ) {
     . $secretsScript
 }

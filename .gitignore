@@ -1,5 +1,5 @@
-# exclude secrets file, contains creds
-secrets.ps1
+# exclude the local semi secrets file
+semisecrets.ps1
 
 # exclude the autoload script where i set my $env:path's, etc.
 locals.ps1
