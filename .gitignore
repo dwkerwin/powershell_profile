@@ -9,6 +9,9 @@ _*.ps1
 _*.psm1
 _*.psd1
 
+# exclude the aws powershell helpers directory as that is a separate git repo
+aws-powershell-helpers/
+
 # exclude command history file
 history.clixml
 
