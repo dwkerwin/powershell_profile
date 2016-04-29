@@ -9,14 +9,23 @@ function shorten-path([string] $path) {
 
 # alternate shorter prompt, uses shorten-path function
 function prompt { 
-   $cdelim = [ConsoleColor]::DarkCyan 
-   $chost = [ConsoleColor]::Green 
-   $cloc = [ConsoleColor]::Cyan    
+   $cdelim = [ConsoleColor]::DarkCyan
+   $chost = [ConsoleColor]::Green
+   $cloc = [ConsoleColor]::Cyan
+   $clocStack = [ConsoleColor]::Yellow
    $hostName = [net.dns]::GetHostName()
    $machineName = $hostName
    write-host "PS " -n
    write-host ($machineName) -n -f $chost 
    write-host ' ' -n -f $cdelim 
+
+   # if there are directories on the stack (pushd/popd), show the stack count
+   $locationStackSize = (pwd -stack).Count
+   if ($locationStackSize) {
+      write-host "+$locationStackSize" -n -f $clocStack
+      write-host ' ' -n -f $cdelim
+   }
+
    write-host (shorten-path (pwd).Path) -n -f $cloc
    # if posh-git is installed, incorporate git status into the prompt 
    if (Get-Module -Name "posh-git") {
