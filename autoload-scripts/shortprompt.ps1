@@ -2,8 +2,7 @@ function shorten-path([string] $path) {
    $loc = $path.Replace($HOME, '~') 
    # remove prefix for UNC paths 
    $loc = $loc -replace '^[^:]+::', '' 
-   # make path shorter like tabs in Vim, 
-   # handle paths sing with \\ and . correctly 
+   # make path shorter, handle \\ and . correctly 
    return ($loc -replace '\\(\.?)([^\\])[^\\]*(?=\\)','\$1$2') 
 }
 

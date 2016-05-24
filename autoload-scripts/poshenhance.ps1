@@ -38,6 +38,7 @@ function  ....  {Set-Location ..\..\..}
 function  ..... {Set-Location ..\..\..\..}
 function google ($q) {start http://www.google.com/?#q=$q}
 function so     ($q) {start http://stackoverflow.com/search?q=$q}
+function npp    ($q) {start "notepad++.exe" -a "-multiInst -nosession $q"}
 
 # find which version of the application you'll be calling, if any
 function which($app)

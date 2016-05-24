@@ -24,7 +24,7 @@ Naturally this will be custom to whatever applications you have installed, so lo
 
 ### Helper Functions and Aliases
 
-Most of the helpful enhancements and aliaases are in the poshenhance.ps1 file in the autoload-scripts directory.  There is also a small collection of AWS helper functions in `awshelpers.ps1`, which of course has the AWSPowerShell module as a dependency.
+Most of the helpful enhancements and aliaases are in the poshenhance.ps1 file in the autoload-scripts directory.
 
 ### Powershell Version Compatibility
 
